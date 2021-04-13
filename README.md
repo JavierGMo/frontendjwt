@@ -2,6 +2,9 @@
 
 ## Este front-end consume la api de este [repo](https://github.com/JavierGMo/apiconjwt)
 
+## Estado:
+No terminado, falta
+
 ## Construccion de entorno
 
 ```bash
