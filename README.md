@@ -1,20 +1,18 @@
 # loginjwt
 
-## Build Setup
+## Construccion de entorno
 
 ```bash
-# install dependencies
+## Instalar dependencias
 $ npm install
 
-# serve with hot reload at localhost:3000
+## Correr el proyecto en local
 $ npm run dev
 
-# build for production and launch server
+## Construccion para produccion
 $ npm run build
 $ npm run start
 
-# generate static project
+## generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
