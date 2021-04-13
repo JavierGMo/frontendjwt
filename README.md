@@ -1,4 +1,6 @@
-# loginjwt
+# Frontend : loginjwt
+
+## Este front-end consume la api de este [repo](https://github.com/JavierGMo/apiconjwt)
 
 ## Construccion de entorno
 
