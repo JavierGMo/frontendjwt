@@ -1,10 +1,26 @@
 //Mixin for auth
-const auth = {
+export default{
     watch : {
-        isAuthenticate(){
-            
-        },
-    },
-};
+        isAuthenticated(value){
+            console.log(`mixin de raiz  valor ${value}`);
+            if(!value){
 
-export default auth;
+                this.$router.push('login/');
+            }
+        }
+    },
+    data(){
+        return {
+            isAuthenticated : false,
+        };
+    },
+    methods : {
+        logOut(){
+            localStorage.setItem('token', '');
+            localStorage.setItem('login', false);
+            this.isAuthenticated = false;
+            this.$router.push('/');
+
+        }
+    }
+}

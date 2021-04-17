@@ -37,6 +37,11 @@
 <script>
 
 export default {
+    
+    mounted : function(){
+        if(localStorage.getItem('login')) this.$router.push('/');
+        //this.isAuthenticated = localStorage.getItem('login')?localStorage.getItem('login'):false;
+    },
     data(){
         return {
             validateForm : false,
@@ -55,7 +60,7 @@ export default {
             const routeLogin = 'http://localhost:5000/login';
             const okForm = {};
             try {
-                okForm['ok']= this.$refs.form.validate() && this.validateForm;
+                okForm['ok'] = this.$refs.form.validate() && this.validateForm;
                 if(okForm['ok']) this.dataOfRequest(routeLogin);
                 else alert('Faltan por llenar campos');
             } catch (error) {
@@ -104,6 +109,7 @@ export default {
         setUserLogged(token){
             console.log(token);
             localStorage.setItem('token', token);
+            localStorage.setItem('login', true);
         }
     },
 }
