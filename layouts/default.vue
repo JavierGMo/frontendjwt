@@ -97,15 +97,25 @@ export default {
       fixed: false,
       items: [
         {
+          icon: 'mdi-account',
+          title: 'Cuenta',
+          to: '/user'
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Tus productos',
+          to: '/user/products'
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Subir productos',
+          to: '/user/products/new'
+        },
+        {
           icon: 'mdi-apps',
           title: 'Welcome',
           to: '/'
         },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
       ],
       miniVariant: false,
       right: true,
