@@ -39,7 +39,11 @@
 export default {
     
     mounted : function(){
-        if(localStorage.getItem('login')) this.$router.push('/');
+        
+        if(localStorage.getItem('login')) {
+            this.$router.push('/');
+            console.log(localStorage.getItem('login'));
+        }
         //this.isAuthenticated = localStorage.getItem('login')?localStorage.getItem('login'):false;
     },
     data(){

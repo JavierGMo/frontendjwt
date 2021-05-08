@@ -22,7 +22,9 @@
             <v-tab-item
                 value="tab-1"
             >
-                <EditProfile/>
+                <EditProfile
+                    ref="editprofile"
+                />
             </v-tab-item>
             <v-tab-item
                 value="tab-2"
@@ -44,15 +46,62 @@ export default {
     },
     mounted : function(){
         // this.isAuthenticated = localStorage.getItem('login')?localStorage.getItem('login'):false;
-        
+        this.getUserData();
     },
     data(){
         return{
             tab : null,
+            firstName : '',
+            lastName : '',
+            userName : '',
 
         };
     },//data
-    
+    methods : {
+        async getUserData(){
+            const url = 'http://localhost:5000/user/profile';
+            const request = await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+            const data = {};
+            switch(request.status){
+                case 200:
+                    data['ok'] = await request.json();
+                    this.dataProfile(data.ok.data);
+                    break;
+                case 403:
+                    alert('Acceso denegado');
+                    break;
+                case 404:
+                    alert('Usuario no encontrado');
+                    break;
+                case 500:
+                    alert('Algo salio mal, intente mas tarde.');
+                    break;
+                default:
+                    alert('Algo salio mal, intente mas tarde.');
+                
+            }
+        },
+        dataProfile(profile){
+            if(profile!==null && profile!==undefined){
+                console.log(profile);
+                this.firstName = profile['firstname'];
+                this.lastName = profile['lastname'];
+                this.userName = profile['username']
+                console.log(`${this.userName}`);
+                const dataForChild = {
+                    firstName : this.firstName,
+                    lastName : this.lastName,
+                    userName : this.userName
+                };
+                this.$refs.editprofile.dataUser(dataForChild);
+            }
+        }
+    }//Methods
 
 }
 </script>

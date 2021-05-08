@@ -42,9 +42,9 @@
                             :disabled="editProfile"
                         ></v-text-field>
                         <v-text-field
-                            v-model="usertName"
+                            v-model="userName"
                             label="Nombre de usuario"
-                            :disabled="editProfile"
+                            disabled
                         ></v-text-field>
                         <v-btn
                             color="success"
@@ -63,23 +63,73 @@
 
 <script>
 export default {
+    mounted(){
+        this.dataUser();
+        if(this.dataForUserReady){
+            //Hacer funcion para disparar una funcion al padre y que esta vuelva a disparar a this.dataUser, se arregla el problem para cuando se guardan los cambios en este component
+        }
+    },
     data(){
         return{
             valid : true,
             editProfile : true,
             products : [],
-            firstNameUser : 'javier',
+            firstNameUser : '',
             firstNameUserRules : [],
-            lastNameUser : 'Gonzalez Mora',
+            lastNameUser : '',
             lastNameUserRules : [],
-            usertName : 'malohunt',
-            usertNameRules : [],
+            userName : '',
+            userNameRules : [],
+            dataForUserReady : false,
         };
     },//data
     methods : {
-        updateProfile(){
+        dataUser(dataFromParent){
+            
+            if(dataFromParent!==undefined && dataFromParent!==null){
+                this.firstNameUser = dataFromParent.firstName;
+                this.lastNameUser = dataFromParent.lastName;
+                this.userName = dataFromParent.userName;
+            }else{
+                console.log(`no hay data`);
+            }
+            
+            // this.firstNameUser = dataFromParent.firstName;
+            // this.lastNameUser = dataFromParent.lastName;
+            // this.userName = dataFromParent.userName;
+            
+        },
+        async updateProfile(){
             if(this.$refs.form.validate()){
-                console.log('Hola es valido');
+                const request = await fetch('http://localhost:5000/user/update', {
+                    method : 'PUT',
+                    headers : {
+                        'Content-Type': 'application/json',
+                        'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+                    },
+                    body : JSON.stringify({
+                        'firstname' : this.firstNameUser,
+                        'lastname' : this.lastNameUser,
+                        'username' : this.userName
+                    })
+                });
+                switch(request.status){
+                    case 200:
+                        alert('Usuario actualizadp');
+                        break;
+                    case 403:
+                        alert('Acceso denegado');
+                        break;
+                    case 404:
+                        alert('Usuario no encontrado');
+                        break;
+                    case 500:
+                        alert('Algo salio mal, intente mas tarde.');
+                        break;
+                    default:
+                        alert('Algo salio mal, intente mas tarde.');
+                    
+                }
             }
         },
     },//Methods

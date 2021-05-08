@@ -30,7 +30,7 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
+      <!--<v-btn
         icon
         @click.stop="miniVariant = !miniVariant"
       >
@@ -41,13 +41,7 @@
         @click.stop="clipped = !clipped"
       >
         <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
+      </v-btn>-->
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn
@@ -69,14 +63,42 @@
       fixed
     >
       <v-list>
-        <v-list-item @click.native="right = !right">
+        <v-list-item
+          v-if="!isLogged"
+          class="cursors-custom" @click.native="logout"
+        >
           <v-list-item-action>
             <v-icon light>
-              mdi-repeat
+              mdi-account-circle
             </v-icon>
           </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
+          <v-list-item-title>Iniciar sesion</v-list-item-title>
+        </v-list-item><!--Login-->
+
+        <v-list-item
+          v-if="!isLogged"
+          class="cursors-custom" @click.native="logout"
+        >
+          <v-list-item-action>
+            <v-icon light>
+              mdi-account
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-title>Registrarse</v-list-item-title>
+        </v-list-item><!--Registrarse-->
+
+        <v-list-item
+          v-if="isLogged"
+          class="cursors-custom" @click.native="logout"
+        >
+          <v-list-item-action>
+            <v-icon light>
+              mdi-logout
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-title>Logout</v-list-item-title>
+        </v-list-item><!--Logout-->
+
       </v-list>
     </v-navigation-drawer>
     <v-footer
@@ -90,11 +112,15 @@
 
 <script>
 export default {
+  mounted(){
+    this.isLogged = localStorage.getItem('login') && localStorage.getItem('token');
+  },
   data () {
     return {
-      clipped: false,
+      clipped: true,
       drawer: false,
       fixed: false,
+      isLogged : false,
       items: [
         {
           icon: 'mdi-account',
@@ -122,6 +148,18 @@ export default {
       rightDrawer: false,
       title: 'Vuetify.js'
     }
-  }
+  },//data
+  methods : {
+    logout(){
+      localStorage.removeItem('token');
+      localStorage.removeItem('login');
+      window.location.href = 'http://localhost:3000/login';
+    }
+  }//Methods
 }
 </script>
+<style scoped>
+  .cursors-custom{
+    cursor: pointer;
+  }
+</style>
